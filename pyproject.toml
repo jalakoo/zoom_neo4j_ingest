@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "zoom-neo4j-ingest"
+version = "0.1.0"
+description = ""
+authors = ["jalakoo <jalakoo@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+functions-framework = "^3.8.1"
+neo4j = "^5.24.0"
+basicauth = "^1.0.0"
+pydantic = {extras = ["email"], version = "^2.8.2"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
