@@ -7,7 +7,7 @@ import logging
 
 HOST = os.environ.get("NEO4J_URI")
 PASSWORD = os.environ.get("NEO4J_PASSWORD")
-USER = os.environ.get("NEO4J_USER", "neo4j")
+USER = os.environ.get("NEO4J_USERNAME", "neo4j")
 DATABASE = os.environ.get("NEO4J_DATABASE", "neo4j")
 
 

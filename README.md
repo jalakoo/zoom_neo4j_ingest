@@ -18,7 +18,7 @@ Then:
 
 ```
 NEO4J_URI=bolt://localhost:7687 \
-NEO4J_USER=neo4j \
+NEO4J_USERNAME=neo4j \
 NEO4J_PASSWORD=<password> \
 poetry run functions-framework --target=ingest --port=8000
 ```
@@ -27,7 +27,7 @@ Optionally enable basic auth with:
 
 ```
 NEO4J_URI=bolt://localhost:7687 \
-NEO4J_USER=neo4j \
+NEO4J_USERNAME=neo4j \
 NEO4J_PASSWORD=<password> \
 BASIC_AUTH_USER=zoom \
 BASIC_AUTH_PASSWORD=faster_together \
