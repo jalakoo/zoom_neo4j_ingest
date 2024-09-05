@@ -33,3 +33,7 @@ BASIC_AUTH_USER=zoom \
 BASIC_AUTH_PASSWORD=faster_together \
 poetry run functions-framework --target=ingest --port=8000
 ```
+
+# GraphQL Toolbox
+
+Use the [Neo4j GraphQL Toolbox](https://graphql-toolbox.neo4j.io/) to explore or generate a GraphQL schema from the imported data.

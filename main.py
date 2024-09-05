@@ -1,19 +1,19 @@
 from basicauth import decode
-from typing import List, Optional
-from neo4j import GraphDatabase, basic_auth
-from neo4j.exceptions import ClientError
-from pydantic import BaseModel, Field
 from zoom_model import ZoomModel
 from queries import add_profile
 import functions_framework
-import json
 import os
 import logging
+
+logging.basicConfig(level=logging.DEBUG)
+
+logging.getLogger("neo4j.io").setLevel(logging.ERROR)
+logging.getLogger("neo4j.pool").setLevel(logging.ERROR)
 
 
 def ingest_zoom(model: ZoomModel):
     try:
-        add_profile(model.profile)
+        add_profile(model)
         return f"Successfully added profile with id: `{model.profile.id}`"
     except Exception as e:
         return f"Error adding profile with id: {model.profile.id}: {e}"
@@ -52,6 +52,7 @@ def ingest(request):
     for item in payload:
         try:
             ddata = ZoomModel(**item)
+            logging.debug(f"Processing payload with {len(ddata.pastMeetings)} meetings")
             results.append(ingest_zoom(ddata))
         except Exception as e:
             results.append(f"Invalid payload: {e}")

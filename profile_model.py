@@ -1,4 +1,4 @@
-from pydantic import BaseModel, HttpUrl, EmailStr, ConfigDict
+from pydantic import BaseModel, EmailStr, ConfigDict
 from typing import List, Optional
 from datetime import datetime
 
@@ -21,15 +21,15 @@ class Profile(BaseModel):
     role_name: str
     pmi: int
     use_pmi: bool
-    # vanity_url: HttpUrl
-    # personal_meeting_url: HttpUrl
+    vanity_url: Optional[str] = None
+    personal_meeting_url: Optional[str] = None
     timezone: str
     verified: int
     dept: Optional[str]
     created_at: datetime
     last_login_time: datetime
     last_client_version: str
-    # pic_url: HttpUrl
+    pic_url: Optional[str] = None
     cms_user_id: str
     jid: str
     group_ids: List[str]
