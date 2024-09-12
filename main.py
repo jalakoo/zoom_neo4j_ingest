@@ -45,9 +45,15 @@ def ingest(request):
     if not isinstance(payload, list) or not all(
         isinstance(item, dict) for item in payload
     ):
-        return "Invalid payload: expected a list of dictionaries", 400
+        # Attempt to process single item payload
+        try:
+            ddata = ZoomModel(**item)
+            logging.debug(f"Processing payload with {len(ddata.pastMeetings)} meetings")
+            return ingest_zoom(ddata)
+        except Exception as e:
+            return f"Invalid payload: {e}"
 
-    # Process each item in the list
+    # Process multiple item payloads
     results = []
     for item in payload:
         try:

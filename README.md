@@ -1,6 +1,10 @@
 # Zoom to Neo4j Ingest Function
 
-This application is for running a Google Cloud/Run Function that will ingest Zoom profile data into a Neo4j database
+This application is for running a Google Cloud/Run Function that will ingest Zoom profile data into a Neo4j database.
+
+![Workflow Diagram](media/arch_diagram.png)
+
+This is the `Ingest` component of the above workflow.
 
 ## Required Neo4j Constraints
 
