@@ -41,17 +41,14 @@ def ingest(request):
 
     payload = request.get_json(silent=True)
 
-    # Check payload is a JSON list of dictionaries
-    if not isinstance(payload, list) or not all(
-        isinstance(item, dict) for item in payload
-    ):
-        # Attempt to process single item payload
+    # Single item payload?
+    if not isinstance(payload, list):
         try:
-            ddata = ZoomModel(**item)
+            ddata = ZoomModel(**payload)
             logging.debug(f"Processing payload with {len(ddata.pastMeetings)} meetings")
             return ingest_zoom(ddata)
         except Exception as e:
-            return f"Invalid payload: {e}"
+            return f"Invalid payload: {e}", 400
 
     # Process multiple item payloads
     results = []
@@ -63,4 +60,5 @@ def ingest(request):
         except Exception as e:
             results.append(f"Invalid payload: {e}")
 
+    print(f"Ingest complete: {results}")
     return results, 200
