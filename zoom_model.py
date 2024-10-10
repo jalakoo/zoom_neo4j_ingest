@@ -7,6 +7,6 @@ from meeting_model import Meeting
 
 class ZoomModel(BaseModel):
     profile: Profile
-    # pastMeetings: List[Meeting]
+    pastMeetings: List[Meeting]
 
     model_config = ConfigDict(extra="ignore")

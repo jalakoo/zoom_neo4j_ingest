@@ -1,19 +1,19 @@
 from basicauth import decode
-from typing import List, Optional
-from neo4j import GraphDatabase, basic_auth
-from neo4j.exceptions import ClientError
-from pydantic import BaseModel, Field
 from zoom_model import ZoomModel
 from queries import add_profile
 import functions_framework
-import json
 import os
 import logging
+
+logging.basicConfig(level=logging.DEBUG)
+
+logging.getLogger("neo4j.io").setLevel(logging.ERROR)
+logging.getLogger("neo4j.pool").setLevel(logging.ERROR)
 
 
 def ingest_zoom(model: ZoomModel):
     try:
-        add_profile(model.profile)
+        add_profile(model)
         return f"Successfully added profile with id: `{model.profile.id}`"
     except Exception as e:
         return f"Error adding profile with id: {model.profile.id}: {e}"
@@ -41,19 +41,24 @@ def ingest(request):
 
     payload = request.get_json(silent=True)
 
-    # Check payload is a JSON list of dictionaries
-    if not isinstance(payload, list) or not all(
-        isinstance(item, dict) for item in payload
-    ):
-        return "Invalid payload: expected a list of dictionaries", 400
+    # Single item payload?
+    if not isinstance(payload, list):
+        try:
+            ddata = ZoomModel(**payload)
+            logging.debug(f"Processing payload with {len(ddata.pastMeetings)} meetings")
+            return ingest_zoom(ddata)
+        except Exception as e:
+            return f"Invalid payload: {e}", 400
 
-    # Process each item in the list
+    # Process multiple item payloads
     results = []
     for item in payload:
         try:
             ddata = ZoomModel(**item)
+            logging.debug(f"Processing payload with {len(ddata.pastMeetings)} meetings")
             results.append(ingest_zoom(ddata))
         except Exception as e:
             results.append(f"Invalid payload: {e}")
 
+    print(f"Ingest complete: {results}")
     return results, 200
